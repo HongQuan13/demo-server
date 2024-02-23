@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const pool = require("../databases/init.postgres");
 
 router.get("/checkstatus", (req, res, next) => {
   res.status(200).json({
