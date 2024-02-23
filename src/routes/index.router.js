@@ -3,7 +3,8 @@ const router = express.Router();
 const { Pool } = require("pg");
 const pool = new Pool({
   user: "postgres",
-  host: "benjamin-database-postgres.czccwe4oeg4q.ap-southeast-1.rds.amazonaws.com",
+  host: "benjamin-db.czccwe4oeg4q.ap-southeast-1.rds.amazonaws.com",
+  database: "benjaminDB",
   password: "12345678",
   port: 5432,
 });
