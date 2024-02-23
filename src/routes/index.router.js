@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../databases/init.postgres");
+const pool = new Pool({
+  user: "postgres",
+  host: "benjamin-database-postgres.czccwe4oeg4q.ap-southeast-1.rds.amazonaws.com",
+  password: "12345678",
+  port: 5432,
+});
 
 router.get("/checkstatus", (req, res, next) => {
   res.status(200).json({
@@ -12,7 +17,6 @@ router.get("/checkstatus", (req, res, next) => {
 router.get("/api/users", async (req, res, next) => {
   try {
     const userData = await pool.query("SELECT * FROM users");
-    console.log(userData, "userData");
 
     res.status(200).json({
       status: "success api",
