@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
-const pool = new Pool({
-  user: "postgres",
-  host: "benjamin-db.czccwe4oeg4q.ap-southeast-1.rds.amazonaws.com",
-  database: "benjaminDB",
-  password: "12345678",
-  port: 5432,
-});
+const mysql = require("mysql2/promise");
+
+// const pool = new Pool({
+//   user: "postgres",
+//   host: "benjamin-db.czccwe4oeg4q.ap-southeast-1.rds.amazonaws.com",
+//   database: "benjaminDB",
+//   password: "12345678",
+//   port: 5432,
+// });
 
 router.get("/checkstatus", (req, res, next) => {
   res.status(200).json({
@@ -16,15 +18,39 @@ router.get("/checkstatus", (req, res, next) => {
   });
 });
 
-router.get("/api/users", async (req, res, next) => {
-  try {
-    const userData = await pool.query("SELECT * FROM users");
+// router.get("/api/users", async (req, res, next) => {
+//   try {
+//     const userData = await pool.query("SELECT * FROM users");
 
-    res.status(200).json({
-      status: "success api",
-      message: "api ok",
-      metadata: userData,
-    });
+//     res.status(200).json({
+//       status: "success api",
+//       message: "api ok",
+//       metadata: userData,
+//     });
+//   } catch (error) {
+//     console.log("query user table meet errors", error);
+//   }
+// });
+
+router.get("/testing", async (req, res, next) => {
+  try {
+    const connectionDetails = {
+      host: "mysql-database.czccwe4oeg4q.ap-southeast-1.rds.amazonaws.com",
+      user: "admin",
+      password: "12345678",
+      database: "benjaminDB",
+    };
+
+    let connection = await mysql.createConnection(connectionDetails);
+
+    await connection.query(`
+    CREATE TABLE IF NOT EXISTS topics (
+      id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+      title VARCHAR(255) NOT NULL,
+      user VARCHAR(255) NOT NULL,
+      statement TEXT NOT NULL
+    )
+  `);
   } catch (error) {
     console.log("query user table meet errors", error);
   }
