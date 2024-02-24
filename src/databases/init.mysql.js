@@ -43,5 +43,15 @@ async function fetchAllUsers() {
   return users;
 }
 
+async function addUser(name, age, job) {
+  const connection = await mysql.createConnection(connectionDetails);
+  const sql = "INSERT INTO users (name, age, job) VALUES (?, ?, ?)";
+  const [result] = await connection.query(sql, [name, age, job]);
+  await connection.end();
+
+  return result;
+}
+
 module.exports.initDatabase = initDatabase;
 module.exports.fetchAllUsers = fetchAllUsers;
+module.exports.addUser = addUser;
