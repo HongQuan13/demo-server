@@ -1,22 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { Pool } = require("pg");
-const mysql = require("mysql2/promise");
 const {
   initDatabase,
   fetchAllUsers,
   addRandomUser,
 } = require("../databases/init.mysql");
-const { BadRequestError } = require("../core/error.response");
 
-router.get("/checkstatus", (req, res, next) => {
+router.get("/api/checkstatus", (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "api ok",
   });
 });
 
-router.get("/initDB", async (req, res, next) => {
+router.get("/api/initDB", async (req, res, next) => {
   try {
     await initDatabase();
     res.status(200).json({
@@ -29,7 +26,7 @@ router.get("/initDB", async (req, res, next) => {
   }
 });
 
-router.get("/users", async (req, res, next) => {
+router.get("/api/users", async (req, res, next) => {
   try {
     const userData = await fetchAllUsers();
 
@@ -44,7 +41,7 @@ router.get("/users", async (req, res, next) => {
   }
 });
 
-router.get("/addRandomUser", async (req, res, next) => {
+router.get("/api/addRandomUser", async (req, res, next) => {
   try {
     const newUser = await addRandomUser();
 
