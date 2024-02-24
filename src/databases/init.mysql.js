@@ -43,10 +43,22 @@ async function fetchAllUsers() {
   return users;
 }
 
-async function addUser(name, age, job) {
+async function addRandomUser() {
   const connection = await mysql.createConnection(connectionDetails);
+  const names = ["Alice", "Bob", "Charlie", "Diana"];
+  const jobs = ["Engineer", "Teacher", "Designer", "Doctor"];
+
+  // Generating random values
+  const randomName = names[Math.floor(Math.random() * names.length)];
+  const randomAge = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
+  const randomJob = jobs[Math.floor(Math.random() * jobs.length)];
+
   const sql = "INSERT INTO users (name, age, job) VALUES (?, ?, ?)";
-  const [result] = await connection.query(sql, [name, age, job]);
+  const [result] = await connection.query(sql, [
+    randomName,
+    randomAge,
+    randomJob,
+  ]);
   await connection.end();
 
   return result;
@@ -54,4 +66,4 @@ async function addUser(name, age, job) {
 
 module.exports.initDatabase = initDatabase;
 module.exports.fetchAllUsers = fetchAllUsers;
-module.exports.addUser = addUser;
+module.exports.addRandomUser = addRandomUser;

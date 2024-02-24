@@ -5,7 +5,7 @@ const mysql = require("mysql2/promise");
 const {
   initDatabase,
   fetchAllUsers,
-  addUser,
+  addRandomUser,
 } = require("../databases/init.mysql");
 const { BadRequestError } = require("../core/error.response");
 
@@ -44,13 +44,9 @@ router.get("/users", async (req, res, next) => {
   }
 });
 
-router.get("/addUser", async (req, res, next) => {
+router.get("/addRandomUser", async (req, res, next) => {
   try {
-    const { name, age, job } = req.params;
-    if (!name | !age | !job) {
-      throw new BadRequestError("Attribute missing of user");
-    }
-    const newUser = await addUser(name, age, job);
+    const newUser = await addRandomUser();
 
     res.status(200).json({
       status: "Success",
